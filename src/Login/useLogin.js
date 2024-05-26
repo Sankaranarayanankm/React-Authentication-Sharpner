@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useAuthCtx } from "../Context/AuthContext";
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState("");
-  const loginHandler = async (email,password) => {
+  const { login,token } = useAuthCtx();
+  const loginHandler = async (email, password) => {
     try {
       setLoading(true);
       const response = await fetch(
@@ -22,12 +24,12 @@ const useLogin = () => {
       );
       if (!response.ok) {
         const errorMessgae = await response.json();
-        // console.log(errorMessgae);
         throw new Error(errorMessgae.error.message || "failed to log-in");
       }
       const resData = await response.json();
-      console.log(resData);
       setData(resData);
+      login(resData.idToken);
+      console.log(login,token);
     } catch (error) {
       alert(error);
     } finally {

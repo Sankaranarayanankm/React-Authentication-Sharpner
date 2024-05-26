@@ -10,7 +10,7 @@ const AuthForm = () => {
     password: "",
   });
   let { sending, signupHandler } = useSignup();
-  const { loginHandler } = useLogin();
+  const { loginHandler} = useLogin();
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -26,7 +26,7 @@ const AuthForm = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (isLogin) {
-      console.log(state.email);
+      console.log('login')
       loginHandler(state.email, state.password);
       
     } else {

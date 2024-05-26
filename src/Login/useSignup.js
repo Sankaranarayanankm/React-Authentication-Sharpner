@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+
 const useSignup = () => {
   const [sending, setSending] = useState(false);
   const [data, setData] = useState("");
+  
 
   const signupHandler = async (email, password) => {
     setSending(true);
