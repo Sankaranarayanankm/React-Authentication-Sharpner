@@ -6,21 +6,26 @@ const authContext = createContext({
   logout: () => {},
 });
 const AuthContextProvider = (props) => {
-  const [token, setToken] = useState("");
+  const initialToken = localStorage.getItem("token");
+  const [token, setToken] = useState(initialToken);
+  const userLoggedIn = !!token;
 
   const loginHandler = (token) => {
-    console.log(token)
     setToken(token);
+    // storing the token in local storage
+    localStorage.setItem("token", token);
   };
   const logoutHandler = () => {
     setToken("");
+    localStorage.removeItem("token");
   };
   const defaultContext = {
     token,
-    isLogin: token.length > 0,
+    isLogin: userLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
   };
+
   return (
     <authContext.Provider value={defaultContext}>
       {props.children}

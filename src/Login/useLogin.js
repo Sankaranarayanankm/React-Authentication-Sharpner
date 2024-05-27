@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useAuthCtx } from "../Context/AuthContext";
+import {useHistory} from 'react-router-dom';
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState("");
-  const { login,token } = useAuthCtx();
+  const history=useHistory();
+  const { login } = useAuthCtx();
   const loginHandler = async (email, password) => {
     try {
       setLoading(true);
@@ -29,7 +31,9 @@ const useLogin = () => {
       const resData = await response.json();
       setData(resData);
       login(resData.idToken);
-      console.log(login,token);
+      history.push('/');
+ 
+
     } catch (error) {
       alert(error);
     } finally {

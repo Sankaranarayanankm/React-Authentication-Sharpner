@@ -1,28 +1,33 @@
-import { Switch, Route } from "react-router-dom";
-
+import { Switch, Route, Redirect } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import UserProfile from "./components/Profile/UserProfile";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import AuthContextProvider from "./Context/AuthContext";
+import { useAuthCtx } from "./Context/AuthContext";
 
 function App() {
+  const { isLogin } = useAuthCtx();
+
   return (
-    <AuthContextProvider>
-      <Layout>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        {!isLogin && (
           <Route path="/auth">
             <AuthPage />
           </Route>
-          <Route path="/profile">
-            <UserProfile />
-          </Route>
-        </Switch>
-      </Layout>
-    </AuthContextProvider>
+        )}
+        <Route path="/profile">
+          {isLogin && <UserProfile />}
+          {!isLogin && <Redirect to="/auth" />}
+        </Route>
+        <Route path="*">
+          <Redirect to="/auth" />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 

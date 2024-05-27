@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 
 const useSignup = () => {
   const [sending, setSending] = useState(false);
   const [data, setData] = useState("");
-  
+  const history=useHistory();
 
   const signupHandler = async (email, password) => {
     setSending(true);
@@ -29,6 +30,7 @@ const useSignup = () => {
       }
       const data = await response.json();
      setData(data);
+     history.replace('/');
     } catch (error) {
       alert(error);
     } finally {
