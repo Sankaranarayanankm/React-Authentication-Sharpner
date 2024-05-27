@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 const authContext = createContext({
   token: "",
   isLogin: false,
@@ -8,6 +8,19 @@ const authContext = createContext({
 const AuthContextProvider = (props) => {
   const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState(initialToken);
+
+  // adding automatic logout functionalilty
+  useEffect(() => {
+    if (token) {
+      const logoutTimer = setTimeout(() => {
+        logoutHandler();
+      }, 5000);
+      return () => {
+        clearTimeout(logoutTimer);
+      };
+    }
+  }, [token]);
+
   const userLoggedIn = !!token;
 
   const loginHandler = (token) => {

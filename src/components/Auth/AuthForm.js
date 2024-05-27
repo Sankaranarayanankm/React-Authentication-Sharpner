@@ -5,13 +5,13 @@ import useLogin from "../../Login/useLogin";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
- 
+
   const [state, setState] = useState({
     email: "",
     password: "",
   });
   let { sending, signupHandler } = useSignup();
-  const { loginHandler} = useLogin();
+  const { loginHandler } = useLogin();
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -28,11 +28,9 @@ const AuthForm = () => {
     event.preventDefault();
     if (isLogin) {
       loginHandler(state.email, state.password);
-      
     } else {
       signupHandler(state.email, state.password);
     }
-
   };
 
   return (
